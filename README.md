@@ -2,7 +2,7 @@
 
 Refactoring [NCKU CSIE official website](https://github.com/kaeteyaruyo/NCKU-CSIE-Website).
 
-## Installation & Setup
+## Installation & Developing
 
 0. Use **Unix-like** OS.
 1. Get [Node.js](https://nodejs.org/en/) from [official website](https://nodejs.org/en/).
@@ -14,7 +14,7 @@ Refactoring [NCKU CSIE official website](https://github.com/kaeteyaruyo/NCKU-CSI
     ```sh
     npm install
     ```
-4. Build
+4. Develop
     - Compiles and hot-reloads for development
     ```
     npm run serve
