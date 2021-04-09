@@ -1,5 +1,11 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import store from './store'
+import { createI18n } from 'vue-i18n'
+import App from '@/App.vue'
+import store from '@/store'
 
-createApp(App).use(store).mount('#app')
+const i18n = createI18n({
+  locale: 'zh-TW',
+  fallbackLocale: 'zh-TW'
+})
+
+export default createApp(App).use(store).use(i18n)
