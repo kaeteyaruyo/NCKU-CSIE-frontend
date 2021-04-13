@@ -9,8 +9,8 @@ footer-bar
 </template>
 
 <script>
-import NavigationBar from '@/components/NavigationBar.vue'
-import FooterBar from '@/components/FooterBar.vue'
+import NavigationBar from '@/components/common/NavigationBar.vue'
+import FooterBar from '@/components/common/FooterBar.vue'
 
 export default {
   name: 'App',

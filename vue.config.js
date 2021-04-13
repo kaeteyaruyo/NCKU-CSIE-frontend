@@ -7,7 +7,7 @@ module.exports = {
       filename: 'html/home/index.html'
     },
     notFound: {
-      entry: 'src/pages/not-found/main.js',
+      entry: 'src/pages/error/not-found/main.js',
       filename: 'html/error/404.html'
     }
   },

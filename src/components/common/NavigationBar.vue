@@ -8,15 +8,26 @@ div
         :key="`lang-${key}`",
         :value="key"
       ) {{ language.name }}
+  p(
+    v-for="(parent, key) in getAllSiteMap",
+    :key="`${key}`"
+  ) {{ key }}
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'navigation-bar',
   computed: {
-    ...mapState('language', ['supportedLanguages'])
+    ...mapState(
+      'language',
+      ['supportedLanguages']
+    ),
+    ...mapGetters(
+      'siteMap',
+      ['getAllSiteMap']
+    )
   }
 }
 </script>
