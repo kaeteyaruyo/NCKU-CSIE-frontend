@@ -166,7 +166,14 @@ const state = {
   }
 }
 
-const getters = {}
+const getters = {
+  allSiteMap: state => {
+    return state
+  },
+  siteMapHeader: state => {
+    return Object.keys(state)
+  }
+}
 
 const mutations = {}
 

@@ -10,7 +10,8 @@
 </i18n>
 
 <template lang="pug">
-p {{ $t('title') }}
+section.not-found
+  img.not-found__image(src="@/assets/image/icon/404.png")
 </template>
 
 <script>
@@ -21,4 +22,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.not-found {
+  // [ layout ]
+  display: block;
+
+  // [ skin ]
+  height: 100vh;
+  width: 100%;
+  background-color: #213262;
+}
+
+.not-found__image {
+  // [ layout ]
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  // [ skin ]
+  width: 70%;
+  height: auto;
+}
 </style>
