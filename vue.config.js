@@ -8,7 +8,7 @@ module.exports = {
     },
     notFound: {
       entry: 'src/pages/error/not-found/main.js',
-      filename: 'html/error/404.html'
+      filename: 'html/error/not-found.html'
     }
   },
   devServer: {
