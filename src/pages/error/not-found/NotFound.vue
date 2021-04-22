@@ -29,7 +29,7 @@ export default {
   // [ skin ]
   height: 100vh;
   width: 100%;
-  background-color: #213262;
+  background-color: white;
 }
 
 .not-found__image {

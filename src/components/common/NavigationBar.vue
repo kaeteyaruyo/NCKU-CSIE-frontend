@@ -16,18 +16,18 @@ nav.nav-bar
       src="@/assets/image/logo/csie-small.png"
       alt="csie logo"
     )
-  a.nav-bar__caption.caption(href="/")
-    article.caption__title.title
-      span.title__text 成功大學
-      span.title__text 資訊工程學系
-      span.title__text 暨
-      span.title__text 研究所
-    article.caption__subtitle.subtitle
-      span.subtitle__text Department
-      span.subtitle__text of
-      span.subtitle__text Computer Science
-      span.subtitle__text and
-      span.subtitle__text Information Engineering
+    section.logo__caption.caption(href="/")
+      article.caption__title.title
+        span.title__text 成功大學
+        span.title__text 資訊工程學系
+        span.title__text 暨
+        span.title__text 研究所
+      article.caption__subtitle.subtitle
+        span.subtitle__text Department
+        span.subtitle__text of
+        span.subtitle__text Computer Science
+        span.subtitle__text and
+        span.subtitle__text Information Engineering
   nav.nav-bar__navigation.navigation(
     @mouseleave="hideList()"
   )
@@ -126,10 +126,14 @@ $caption-gap: 4px;
   position: fixed;
   text-align: left;
   top: 0;
-  display: block;
+  display: flex;
+  align-items: center;
+
+  // [ position ]
   width: 100%;
   height: 70px;
-  width: 100%;
+
+  // [ skin ]
   background-color: #ffffff;
   padding-right: 10px;
   box-shadow: 0 1px 2px rgba( 0, 0, 0, .25 );
@@ -137,113 +141,101 @@ $caption-gap: 4px;
 
 .nav-bar__logo {
   // [ layout ]
-  display: inline-block;
-  width: $logo-width;
-  height: $logo-height;
-  vertical-align: top;
+  display: flex;
+  align-items: center;
+  height: 100%;
 
-  // [ skin ]
-  margin: {
-    top: ( 70px - $logo-height ) / 2;
-    bottom: ( 70px - $logo-height ) / 2;
-    left: 10px;
-    right: 0;
-  }
-  background-color: transparent;
-
-  > .logo__image {
+  .logo__image {
     // [ layout ]
     display: inline-block;
-    vertical-align: top;
-    width: 100%;
-    height: auto;
+    width: $logo-width;
+    height: $logo-height;
 
     // [ skin ]
+    margin: {
+      left: 10px;
+      right: 0;
+    }
     background-color: transparent;
   }
-}
 
-.nav-bar__caption.caption {
-  // [ layout ]
-  display: inline-block;
-  vertical-align: top;
-  margin: {
-    top: ( 70px - $logo-height ) / 2;
-    bottom: ( 70px - $logo-height ) / 2;
-    left: 12px;
-  }
-
-  // [ skin ]
-  width: auto;
-  height: $logo-height;
-  padding: {
-    top: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
-    bottom: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
-  }
-  background-color: transparent;
-
-  > .caption__title.title {
+  .logo__caption.caption {
     // [ layout ]
-    display: block;
-    width: auto;
-    height: $caption-title-font-size;
-    text-align: left;
-    line-height: $caption-title-font-size;
+    display: inline-block;
+    margin-left: 12px;
 
     // [ skin ]
-    color: #212121;
+    width: auto;
+    height: $logo-height;
+    padding: {
+      top: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
+      bottom: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
+    }
     background-color: transparent;
 
-    > .title__text {
+    > .caption__title.title {
       // [ layout ]
-      display: inline-block;
-      vertical-align: top;
-      line-height: $caption-title-font-size;
-
-      // [ skin ]
+      display: block;
       width: auto;
       height: $caption-title-font-size;
-      margin-bottom: $caption-gap;
+      text-align: left;
+      line-height: normal;
+
+      // [ skin ]
+      color: #212121;
       background-color: transparent;
-      font: {
-        size: $caption-title-font-size;
-        style: normal;
-        weight: bold;
+
+      > .title__text {
+        // [ layout ]
+        display: inline-block;
+        vertical-align: top;
+        line-height: $caption-title-font-size;
+
+        // [ skin ]
+        width: auto;
+        height: $caption-title-font-size;
+        margin-bottom: $caption-gap;
+        background-color: transparent;
+        font: {
+          size: $caption-title-font-size;
+          style: normal;
+          weight: bold;
+        }
       }
     }
-  }
-  > .caption__subtitle.subtitle {
-    // [ layout ]
-    display: block;
-    text-align: left;
-    line-height: $caption-subtitle-font-size;
-
-    // [ skin ]
-    width: auto;
-    height: $caption-subtitle-font-size;
-    color: #212121;
-    background-color: transparent;
-
-    > .subtitle__text {
+    > .caption__subtitle.subtitle {
       // [ layout ]
-      display: inline-block;
-      vertical-align: top;
+      display: block;
+      text-align: left;
       line-height: $caption-subtitle-font-size;
-      word-spacing: 3px;
 
       // [ skin ]
       width: auto;
       height: $caption-subtitle-font-size;
-      border: {
-        color: transparent;
-        style: solid;
-        right-width: 3px;
-      }
+      color: #212121;
       background-color: transparent;
-      font: {
-        size: $caption-subtitle-font-size;
-        style: normal;
-        weight: normal;
+
+      > .subtitle__text {
+        // [ layout ]
+        display: inline-block;
+        vertical-align: top;
+        line-height: $caption-subtitle-font-size;
+        word-spacing: 3px;
+
+        // [ skin ]
+        width: auto;
+        height: $caption-subtitle-font-size;
+        border: {
+          color: transparent;
+          style: solid;
+          right-width: 3px;
+        }
+        background-color: transparent;
+        font: {
+          size: $caption-subtitle-font-size;
+          style: normal;
+          weight: normal;
+        }
       }
     }
   }
@@ -260,7 +252,8 @@ $caption-gap: 4px;
   z-index: 2;
 
   // [ layout ]
-  display: inline-block;
+  display: flex;
+  align-items: center;
   overflow-y: visible;
 
   // [ skin ]
@@ -276,8 +269,8 @@ $caption-gap: 4px;
     position: static;
 
     // [ layout ]
-    display: inline-block;
-    margin-top: 8.7px;
+    display: inline-flex;
+    align-items: center;
 
     // [ skin ]
     width: auto;
@@ -295,21 +288,16 @@ $caption-gap: 4px;
       z-index: 5;
 
       // [ layout ]
-      display: inline-block;
-      vertical-align: top;
+      display: inline-flex;
       line-height: $font-size;
       text-align: center;
+      align-items: center;
+      justify-content: center;
 
       // [ skin ]
       width: auto;
       min-width: 87px;
-      height: 54px;
-      padding: {
-        top: ( 54px - $font-size ) / 2;
-        bottom: ( 24px - $font-size ) / 2;
-        left: 0;
-        right: 0;
-      }
+      height: 100%;
       color: #adacad;
       background-color: transparent;
       font: {
@@ -386,8 +374,8 @@ $caption-gap: 4px;
   right: 8px;
 
   // [ layout ]
-  display: inline-block;
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
 
   > .tools__login {
     // [ layout ]
