@@ -52,9 +52,9 @@ nav.nav-bar
     section.langs
       img.image(
         :src="require(`/src/assets/image/icon/flag-${getLanguageId($root.$i18n.locale)}.png`)"
-        @click="isShowLang = !isShowLang"
+        @click="isShowLangs = !isShowLangs"
       )
-      ul.dropdown(v-show="isShowLang")
+      ul.dropdown(v-show="isShowLangs")
         template(
           v-for="(language, key) in supportedLanguages"
           :key="`dropdown-langs-${key}`"
@@ -72,7 +72,7 @@ export default {
   data () {
     return {
       currentList: '',
-      isShowLang: false
+      isShowLangs: false
     }
   },
   computed: {
