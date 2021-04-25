@@ -11,61 +11,57 @@
 
 <template lang="pug">
 nav.nav-bar
-  a.nav-bar__logo(href="/")
-    img.logo__image(
+  a.logo(href="/")
+    img.image(
       src="@/assets/image/logo/csie-small.png"
       alt="csie logo"
     )
-    section.logo__caption.caption(href="/")
-      article.caption__title.title
-        span.title__text 成功大學
-        span.title__text 資訊工程學系
-        span.title__text 暨
-        span.title__text 研究所
-      article.caption__subtitle.subtitle
-        span.subtitle__text Department
-        span.subtitle__text of
-        span.subtitle__text Computer Science
-        span.subtitle__text and
-        span.subtitle__text Information Engineering
-  nav.nav-bar__navigation.navigation(
-    @mouseleave="hideList()"
-  )
+    section.caption(href="/")
+      article.title
+        span.text 成功大學
+        span.text 資訊工程學系
+        span.text 暨
+        span.text 研究所
+      article.subtitle
+        span.text Department
+        span.text of
+        span.text Computer Science
+        span.text and
+        span.text Information Engineering
+  nav.navigation(@mouseleave="currentList = ''")
     template(
       v-for="(obj, key) in allSiteMap"
       :key="`nav-${key}`"
     )
-      ul.navigation__list
-        a.list__header(
+      ul.list
+        a.header(
           :href="obj.header.href"
-          @mouseover="showList(key)"
+          @mouseover="currentList = key"
         ) {{obj.header[$root.$i18n.locale]}}
-        li.list__dropdown(v-show="list[`${key}`]")
-          a.dropdown__item(
+        li.dropdown(v-show="key === currentList")
+          a.item(
             v-for="(item, itemKey) in obj.list"
-            :key="`item-${key}-${itemKey}`"
+            :key="`nav-item-${key}-${itemKey}`"
             :href="item.href"
           ) {{item[$root.$i18n.locale]}}
-  section.nav-bar__tools.bar__tools
-    section.tools__login
-      img.login__image(src="@/assets/image/icon/user.png")
-      a.login__button(href="/auth/login") {{ $t('login') }}
-    section.tools__search
-      button.search__button
-        img.button__image(src="@/assets/image/icon/search.png")
-    section.tools__language
-      button.language__button
-        img.button__image(
-          :src="require(`/src/assets/image/icon/flag-${getLanguageId($root.$i18n.locale)}.png`)"
-          @click="isShowLang = !isShowLang"
+  section.tools
+    a.login(href="/auth/login")
+      img.image(src="@/assets/image/icon/user.png")
+      span.button {{ $t('login') }}
+    img.search(src="@/assets/image/icon/search.png")
+    section.langs
+      img.image(
+        :src="require(`/src/assets/image/icon/flag-${getLanguageId($root.$i18n.locale)}.png`)"
+        @click="isShowLang = !isShowLang"
+      )
+      ul.dropdown(v-show="isShowLang")
+        template(
+          v-for="(language, key) in supportedLanguages"
+          :key="`dropdown-langs-${key}`"
         )
-        ul.button__dropdown(v-show="isShowLang")
-          li.dropdown__item(
-            v-for="(language, key) in supportedLanguages"
-            :key="`lang-${key}`"
-            :class="`dropdown__item--${ key }`"
-            @click="$root.$i18n.locale = key; isShowLang = false;"
-          ) {{ language.name }}
+          li.item
+            img.flag(:src="require(`/src/assets/image/icon/flag-${language.id}.png`)")
+            span.content {{ language.name }}
 </template>
 
 <script>
@@ -75,7 +71,7 @@ export default {
   name: 'navigation-bar',
   data () {
     return {
-      list: {},
+      currentList: '',
       isShowLang: false
     }
   },
@@ -92,23 +88,6 @@ export default {
       'siteMap',
       ['allSiteMap', 'siteMapHeader']
     )
-  },
-  methods: {
-    showList: function (header) {
-      this.list = this.siteMapHeader.reduce(function (keys, key) {
-        keys[`${key}`] = (key === header)
-        return keys
-      }, {})
-    },
-    hideList: function () {
-      this.list = this.siteMapHeader.reduce(function (keys, key) {
-        keys[`${key}`] = false
-        return keys
-      }, {})
-    }
-  },
-  created: function () {
-    this.hideList()
   }
 }
 </script>
@@ -139,13 +118,13 @@ $caption-gap: 4px;
   box-shadow: 0 1px 2px rgba( 0, 0, 0, .25 );
 }
 
-.nav-bar__logo {
+.logo {
   // [ layout ]
   display: flex;
   align-items: center;
   height: 100%;
 
-  .logo__image {
+  .image {
     // [ layout ]
     display: inline-block;
     width: $logo-width;
@@ -159,7 +138,7 @@ $caption-gap: 4px;
     background-color: transparent;
   }
 
-  .logo__caption.caption {
+  .caption {
     // [ layout ]
     display: inline-block;
     margin-left: 12px;
@@ -173,7 +152,7 @@ $caption-gap: 4px;
     }
     background-color: transparent;
 
-    > .caption__title.title {
+    > .title {
       // [ layout ]
       display: block;
       width: auto;
@@ -185,7 +164,7 @@ $caption-gap: 4px;
       color: #212121;
       background-color: transparent;
 
-      > .title__text {
+      > .text {
         // [ layout ]
         display: inline-block;
         vertical-align: top;
@@ -203,7 +182,7 @@ $caption-gap: 4px;
         }
       }
     }
-    > .caption__subtitle.subtitle {
+    > .subtitle {
       // [ layout ]
       display: block;
       text-align: left;
@@ -215,7 +194,7 @@ $caption-gap: 4px;
       color: #212121;
       background-color: transparent;
 
-      > .subtitle__text {
+      > .text {
         // [ layout ]
         display: inline-block;
         vertical-align: top;
@@ -241,7 +220,7 @@ $caption-gap: 4px;
   }
 }
 
-.nav-bar__navigation {
+.navigation {
   // [ variable ]
   $border-height: 20px;
   $item-width: 320px;
@@ -264,7 +243,7 @@ $caption-gap: 4px;
   // [ animation ]
   transition: right .5s;
 
-  > .navigation__list {
+  > .list {
     // [ position ]
     position: static;
 
@@ -281,7 +260,7 @@ $caption-gap: 4px;
       background-color: #ededed;
     }
 
-    > .list__header {
+    > .header {
       // [ position ]
       // This style is set to put `.item__link` above `.item__switch`.
       position: relative;
@@ -307,7 +286,7 @@ $caption-gap: 4px;
       }
     }
 
-    > .list__dropdown {
+    > .dropdown {
       // [ position ]
       position: absolute;
       left: 0;
@@ -325,7 +304,7 @@ $caption-gap: 4px;
       height: 80px;
       background-color: #213262;
 
-      > .dropdown__item {
+      > .item {
         // [ layout ]
         display: inline-block;
         margin: 0;
@@ -368,7 +347,7 @@ $caption-gap: 4px;
   }
 }
 
-.nav-bar__tools {
+.tools {
   // [ position ]
   position: absolute;
   right: 8px;
@@ -377,7 +356,7 @@ $caption-gap: 4px;
   display: flex;
   align-items: center;
 
-  > .tools__login {
+  > .login {
     // [ layout ]
     display: inline-block;
     vertical-align: top;
@@ -394,7 +373,7 @@ $caption-gap: 4px;
     }
     color: #ffffff;
 
-    > .login__image {
+    > .image {
       // [ layout ]
       display: inline-block;
       vertical-align: middle;
@@ -424,7 +403,7 @@ $caption-gap: 4px;
         contrast( 101% );
     }
 
-    > .login__button {
+    > .button {
       // [ layout ]
       display: inline-block;
       vertical-align: top;
@@ -441,7 +420,7 @@ $caption-gap: 4px;
     }
   }
 
-  > .tools__search {
+  > .search {
     // [ layout ]
     display: inline-block;
     vertical-align: top;
@@ -454,125 +433,90 @@ $caption-gap: 4px;
     // [ skin ]
     height: 24px;
     width: 24px;
-
-    > .search__button {
-      // [ layout ]
-      display: inline-block;
-      vertical-align: top;
-
-      // [ skin ]
-      height: 24px;
-      width: 24px;
-      background-color: #ffffff;
-      cursor: pointer;
-
-      > .button__image {
-        // [ skin ]
-        height: 24px;
-        width: 24px;
-      }
-    }
+    background-color: #ffffff;
+    cursor: pointer;
   }
 
-  > .tools__language {
+  > .langs {
+    // [ layout ]
     display: inline-flex;
     vertical-align: top;
+    margin: {
+      left: 24px;
+      top: 6px;
+      bottom: 6px;
+    }
 
-    > .language__button {
-      // [ layout ]
-      display: inline-flex;
-      vertical-align: top;
-      margin: {
-        left: 24px;
-        top: 6px;
-        bottom: 6px;
-      }
+    // [ skin ]
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    background-color: #ffffff;
 
+    > .image {
       // [ skin ]
       height: 24px;
       width: 24px;
-      cursor: pointer;
-      background-color: #ffffff;
+    }
 
-      > .button__image {
+    > .dropdown {
+      // [ position ]
+      top: 32px;
+      left: -128px;
+      z-index: 1;
+
+      // [ layout ]
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
+
+      // [ skin ]
+      height: 82px;
+      min-width: 128px;
+      background-color: #1a284d;
+      box-shadow: 0 1px 2px 0 rgba( 0, 0, 0, .25 );
+      font-size: 16px;
+      color: #ffffff;
+
+      &::before {
+        // [ layout ]
+        display: inline;
+        position: absolute;
+        top: -9.6px;
+        right: 9.6px;
+
         // [ skin ]
-        height: 24px;
-        width: 24px;
+        content: '';
+        border: {
+          width: 4.8px;
+          style: solid;
+          top-color: transparent;
+          right-color: transparent;
+          bottom-color: #1a284d;
+          left-color: transparent;
+        }
       }
 
-      > .button__dropdown {
-        // [ position ]
-        top: 32px;
-        left: -128px;
-        z-index: 1;
-
+      > .item {
         // [ layout ]
         display: flex;
-        position: relative;
-        flex-direction: column;
-        align-content: center;
-        justify-content: center;
+        align-items: center;
+        padding-left: 25.6px;
 
         // [ skin ]
-        height: 82px;
-        min-width: 128px;
-        background-color: #1a284d;
-        box-shadow: 0 1px 2px 0 rgba( 0, 0, 0, .25 );
-        font-size: 16px;
-        color: #ffffff;
+        height: 41px;
+        width: 100%;
 
-        &::before {
+        > .flag {
           // [ layout ]
-          display: inline;
-          position: absolute;
-          top: -9.6px;
-          right: 9.6px;
+          display: inline-block;
+          margin-right: 16px;
 
-          // [ skin ]
-          content: '';
-          border: {
-            width: 4.8px;
-            style: solid;
-            top-color: transparent;
-            right-color: transparent;
-            bottom-color: #1a284d;
-            left-color: transparent;
-          }
-        }
-
-        > .dropdown__item {
-          // [ layout ]
-          display: flex;
-          align-items: center;
-          padding-left: 25.6px;
-
-          // [ skin ]
-          height: 41px;
-          width: 100%;
-
-          &::before {
-            // [ layout ]
-            background: {
-              size: 21.1px;
-              repeat: no-repeat;
-            }
-            margin-right: 16px;
-
-            // [ skin ]
-            content: '';
-            width: 21.1px;
-            height: 21.1px;
-          }
-
-          &.dropdown__item--zh-TW::before {
-            // [ icon ]
-            background-image: url('~@/assets/image/icon/flag-0.png');
-          }
-
-          &.dropdown__item--en-US::before {
-            // [ icon ]
-            background-image: url('~@/assets/image/icon/flag-1.png');
-          }
+          // [ position ]
+          width: 21.1px;
+          height: 21.1px;
         }
       }
     }
