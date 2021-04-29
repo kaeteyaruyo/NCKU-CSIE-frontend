@@ -20,6 +20,11 @@ const getters = {
   },
   getLanguageNames ({ state }) {
     return Object.keys(state.supportedLanguages)
+  },
+  getLanguageId (state) {
+    return (lang) => {
+      return state.supportedLanguages[`${lang}`].id
+    }
   }
 }
 
