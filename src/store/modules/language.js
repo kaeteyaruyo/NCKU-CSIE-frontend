@@ -1,30 +1,23 @@
 const state = {
-  supportedLanguages: {
-    'zh-TW': {
-      id: 0,
-      name: '中文'
+  supportedLanguages: [
+    {
+      name: '中文',
+      code: 'zh-TW'
     },
-    'en-US': {
-      id: 1,
-      name: 'English'
+    {
+      name: 'English',
+      code: 'en-US'
     }
-  }
+  ],
+  defaultLanguageId: 0
 }
 
 const getters = {
-  defaultLanguage () {
-    return 'zh-TW'
+  currentLanguageId (state) {
+    return new URLSearchParams(window.location.search).get('languageId') || state.defaultLanguageId
   },
-  defaultLanguageId ({ state, getters }) {
-    return state[getters.defaultLanguage].id
-  },
-  getLanguageNames ({ state }) {
-    return Object.keys(state.supportedLanguages)
-  },
-  getLanguageId (state) {
-    return (lang) => {
-      return state.supportedLanguages[`${lang}`].id
-    }
+  currentLanguage (state, getters) {
+    return state.supportedLanguages[getters.currentLanguageId].code
   }
 }
 

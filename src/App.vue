@@ -11,12 +11,20 @@ footer-bar
 <script>
 import NavigationBar from '@/components/common/NavigationBar.vue'
 import FooterBar from '@/components/common/FooterBar.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     NavigationBar,
     FooterBar
+  },
+  computed: {
+    ...mapGetters('language', ['currentLanguage'])
+  },
+  created () {
+    // TODO: Dynamic title
+    this.$i18n.locale = this.currentLanguage
   }
 }
 </script>

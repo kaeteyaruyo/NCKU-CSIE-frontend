@@ -12,10 +12,7 @@
 <template lang="pug">
 nav.nav-bar
   a.nav-bar__logo(href="/")
-    img.logo__image(
-      src="@/assets/image/logo/csie-small.png"
-      alt="csie logo"
-    )
+    img.logo__image(src="@/assets/image/logo/csie-small.png", alt="csie logo")
   a.nav-bar__caption.caption(href="/")
     article.caption__title.title
       span.title__text 成功大學
@@ -28,24 +25,16 @@ nav.nav-bar
       span.subtitle__text Computer Science
       span.subtitle__text and
       span.subtitle__text Information Engineering
-  nav.nav-bar__navigation.navigation(
-    @mouseleave="hideList()"
-  )
-    template(
-      v-for="(obj, key) in allSiteMap"
-      :key="`nav-${key}`"
-    )
+  nav.nav-bar__navigation.navigation(@mouseleave="hideList()")
+    template(v-for="(obj, key) in allSiteMap", :key="`nav-${key}`")
       ul.navigation__list
-        a.list__header(
-          :href="obj.header.href"
-          @mouseover="showList(key)"
-        ) {{obj.header[$root.$i18n.locale]}}
+        a.list__header(:href="obj.header.href", @mouseover="showList(key)") {{ obj.header[currentLanguage] }}
         li.list__dropdown(v-show="list[`${key}`]")
           a.dropdown__item(
-            v-for="(item, itemKey) in obj.list"
-            :key="`item-${key}-${itemKey}`"
+            v-for="(item, itemKey) in obj.list",
+            :key="`item-${key}-${itemKey}`",
             :href="item.href"
-          ) {{item[$root.$i18n.locale]}}
+          ) {{ item[currentLanguage] }}
   section.nav-bar__tools.bar__tools
     section.tools__login
       img.login__image(src="@/assets/image/icon/user.png")
@@ -56,15 +45,15 @@ nav.nav-bar
     section.tools__language
       button.language__button
         img.button__image(
-          :src="require(`/src/assets/image/icon/flag-${getLanguageId($root.$i18n.locale)}.png`)"
+          :src="require(`/src/assets/image/icon/flag-${currentLanguageId}.png`)",
           @click="isShowLang = !isShowLang"
         )
         ul.button__dropdown(v-show="isShowLang")
           li.dropdown__item(
-            v-for="(language, key) in supportedLanguages"
-            :key="`lang-${key}`"
-            :class="`dropdown__item--${ key }`"
-            @click="$root.$i18n.locale = key; isShowLang = false;"
+            v-for="(language, key) in supportedLanguages",
+            :key="`lang-${key}`",
+            :class="`dropdown__item--${key}`",
+            @click="changeLocale(key)"
           ) {{ language.name }}
 </template>
 
@@ -80,34 +69,30 @@ export default {
     }
   },
   computed: {
-    ...mapState(
-      'language',
-      ['supportedLanguages']
-    ),
-    ...mapGetters(
-      'language',
-      ['getLanguageId']
-    ),
-    ...mapGetters(
-      'siteMap',
-      ['allSiteMap', 'siteMapHeader']
-    )
+    ...mapState('language', ['supportedLanguages']),
+    ...mapGetters('language', ['currentLanguageId', 'currentLanguage']),
+    ...mapGetters('siteMap', ['allSiteMap', 'siteMapHeader'])
   },
   methods: {
-    showList: function (header) {
-      this.list = this.siteMapHeader.reduce(function (keys, key) {
-        keys[`${key}`] = (key === header)
+    showList (header) {
+      this.list = this.siteMapHeader.reduce((keys, key) => {
+        keys[`${key}`] = key === header
         return keys
       }, {})
     },
-    hideList: function () {
-      this.list = this.siteMapHeader.reduce(function (keys, key) {
+    hideList () {
+      this.list = this.siteMapHeader.reduce((keys, key) => {
         keys[`${key}`] = false
         return keys
       }, {})
+    },
+    changeLocale (languageId) {
+      const params = new URLSearchParams(window.location.search)
+      params.set('languageId', languageId)
+      window.location.assign(`${window.location.pathname}?${params.toString()}`)
     }
   },
-  created: function () {
+  created () {
     this.hideList()
   }
 }
@@ -132,7 +117,7 @@ $caption-gap: 4px;
   width: 100%;
   background-color: #ffffff;
   padding-right: 10px;
-  box-shadow: 0 1px 2px rgba( 0, 0, 0, .25 );
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .nav-bar__logo {
@@ -144,8 +129,8 @@ $caption-gap: 4px;
 
   // [ skin ]
   margin: {
-    top: ( 70px - $logo-height ) / 2;
-    bottom: ( 70px - $logo-height ) / 2;
+    top: (70px - $logo-height) / 2;
+    bottom: (70px - $logo-height) / 2;
     left: 10px;
     right: 0;
   }
@@ -168,8 +153,8 @@ $caption-gap: 4px;
   display: inline-block;
   vertical-align: top;
   margin: {
-    top: ( 70px - $logo-height ) / 2;
-    bottom: ( 70px - $logo-height ) / 2;
+    top: (70px - $logo-height) / 2;
+    bottom: (70px - $logo-height) / 2;
     left: 12px;
   }
 
@@ -177,8 +162,14 @@ $caption-gap: 4px;
   width: auto;
   height: $logo-height;
   padding: {
-    top: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
-    bottom: ( $logo-height - $caption-title-font-size - $caption-subtitle-font-size - $caption-gap ) / 2;
+    top: (
+        $logo-height - $caption-title-font-size - $caption-subtitle-font-size -
+          $caption-gap
+      ) / 2;
+    bottom: (
+        $logo-height - $caption-title-font-size - $caption-subtitle-font-size -
+          $caption-gap
+      ) / 2;
   }
   background-color: transparent;
 
@@ -269,7 +260,7 @@ $caption-gap: 4px;
   height: 100%;
 
   // [ animation ]
-  transition: right .5s;
+  transition: right 0.5s;
 
   > .navigation__list {
     // [ position ]
@@ -305,8 +296,8 @@ $caption-gap: 4px;
       min-width: 87px;
       height: 54px;
       padding: {
-        top: ( 54px - $font-size ) / 2;
-        bottom: ( 24px - $font-size ) / 2;
+        top: (54px - $font-size) / 2;
+        bottom: (24px - $font-size) / 2;
         left: 0;
         right: 0;
       }
@@ -354,13 +345,13 @@ $caption-gap: 4px;
           top-width: 14px;
           bottom-width: 14px;
           left-width: 0;
-        };
+        }
         background-color: #213262;
 
         // [ skin ]
         padding: {
-          top: ( ( 80 - 2 * 14 ) - $font-size ) / 2;
-          bottom: ( ( 80 - 2 * 14 ) - $font-size ) / 2;
+          top: ((80 - 2 * 14) - $font-size) / 2;
+          bottom: ((80 - 2 * 14) - $font-size) / 2;
           left: 25px;
           right: 25px;
         }
@@ -399,7 +390,8 @@ $caption-gap: 4px;
     height: 36.15px;
     line-height: 36.15px;
     background-color: #213262;
-    box-shadow: 0 .06rem .06rem 0 rgba( 0, 0, 0, .24 ), 0 0 2px 0 rgba( 0, 0, 0, .12 );
+    box-shadow: 0 0.06rem 0.06rem 0 rgba(0, 0, 0, 0.24),
+      0 0 2px 0 rgba(0, 0, 0, 0.12);
     font: {
       size: 14px;
       weight: 500;
@@ -427,13 +419,8 @@ $caption-gap: 4px;
         size: 21.1px;
         repeat: no-repeat;
       }
-      filter:
-        invert( 100% )
-        sepia( 0% )
-        saturate( 1% )
-        hue-rotate( 49deg )
-        brightness( 101% )
-        contrast( 101% );
+      filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(49deg)
+        brightness(101%) contrast(101%);
     }
 
     > .login__button {
@@ -529,7 +516,7 @@ $caption-gap: 4px;
         height: 82px;
         min-width: 128px;
         background-color: #1a284d;
-        box-shadow: 0 1px 2px 0 rgba( 0, 0, 0, .25 );
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
         font-size: 16px;
         color: #ffffff;
 
@@ -541,7 +528,7 @@ $caption-gap: 4px;
           right: 9.6px;
 
           // [ skin ]
-          content: '';
+          content: "";
           border: {
             width: 4.8px;
             style: solid;
@@ -571,19 +558,19 @@ $caption-gap: 4px;
             margin-right: 16px;
 
             // [ skin ]
-            content: '';
+            content: "";
             width: 21.1px;
             height: 21.1px;
           }
 
           &.dropdown__item--zh-TW::before {
             // [ icon ]
-            background-image: url('~@/assets/image/icon/flag-0.png');
+            background-image: url("~@/assets/image/icon/flag-0.png");
           }
 
           &.dropdown__item--en-US::before {
             // [ icon ]
-            background-image: url('~@/assets/image/icon/flag-1.png');
+            background-image: url("~@/assets/image/icon/flag-1.png");
           }
         }
       }
