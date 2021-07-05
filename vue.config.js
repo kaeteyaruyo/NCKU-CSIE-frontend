@@ -4,11 +4,13 @@ module.exports = {
   pages: {
     index: {
       entry: 'src/pages/index/main.js',
-      filename: 'html/home/index.html'
+      filename: 'html/home/index.html',
+      title: '首頁'
     },
     notFound: {
       entry: 'src/pages/error/not-found/main.js',
-      filename: 'html/error/not-found.html'
+      filename: 'html/error/not-found.html',
+      title: '查無此頁'
     }
   },
   devServer: {
